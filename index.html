@@ -119,9 +119,11 @@
                 // Center the model
                 const bbox = new THREE.Box3().setFromObject(gltf.scene);
                 const center = bbox.getCenter(new THREE.Vector3());
+                console.log(center);
                 const offset = new THREE.Vector3(0, -0.6, 0);
                 center.add(offset);
                 gltf.scene.position.sub(center);
+                console.log(center);
                 model = gltf.scene;
                 scene.add(model);
                 // Update function
@@ -136,16 +138,12 @@
                         model.visible = true;
                         imagePlane.visible = false;
                         controls.enableRotate = true;
-                        // controls.enablePan=false;
-                        // model.position.set(0,-0.6,0);
                     } else {
                         model.visible = false;
                         imagePlane.visible = true;
                         controls.enableRotate = false;
                         imagePlane.rotation.y = controls.getAzimuthalAngle();
-                        // controls.enablePan = true; 
                     }
-
                     controls.update();
                     renderer.render(scene, camera);
                 }
@@ -180,14 +178,17 @@
         // Image display
         var imageTexture = new THREE.TextureLoader().load(getImage());
         var imageMaterial = new THREE.MeshBasicMaterial({ map: imageTexture });
-        var imageGeometry = new THREE.PlaneGeometry(1.5 * 5, 5);
+        var imageGeometry = new THREE.PlaneGeometry(1.5 * 3.5, 3.5);
         var imagePlane = new THREE.Mesh(imageGeometry, imageMaterial);
         // imagePlane.position.x = 0; // Position the image in front of the camera
         scene.add(imagePlane);
 
         // Listen for the 'change' event
-        controls.addEventListener('change', updateImageTexture);
-
+        controls.addEventListener('change', function () {
+                            if (model.visible) {
+                                updateImageTexture();
+                            }
+                        });
 
         // Function to update the imageTexture based on the current azimuthal angle
         function updateImageTexture() {
@@ -201,22 +202,22 @@
         function getImage() {
             angle = controls.getAzimuthalAngle();
             if (angle >= 0.0 && angle < 0.1) {
-                console.log("0.0");
+                // console.log("0.0");
                 return "outputs/0_0.jpg";
             } else if (angle >= 0.1 && angle < 0.2) {
-                console.log("0.1");
+                // console.log("0.1");
                 return "outputs/0_1.jpg";
             }
             else if (angle >= 0.2 && angle < 0.3) {
-                console.log("0.2");
+                // console.log("0.2");
                 return "outputs/0_2.jpg";
             }
             else if (angle >= 0.3 && angle < 0.4) {
-                console.log("0.3");
+                // console.log("0.3");
                 return "outputs/0_3.jpg";
             }
             else if (angle >= 0.4 && angle < 0.5) {
-                console.log("0.4");
+                // console.log("0.4");
                 return "outputs/0_4.jpg";
             }
             else if (angle >= 0.5 && angle < 0.6) {
@@ -327,7 +328,7 @@
         }
         // Redirect to another page
         function redirectToPage() {
-            window.location.href =  'img.html?image=' + encodeURIComponent(getImage());
+            window.location.href = 'img.html?image=' + encodeURIComponent(getImage());
         }
         // Call updateButton initially
         updateButton();
@@ -337,23 +338,23 @@
 
         // Take screenshot
         function takeScreenshot() {
-            
-                const modelPosition = model.position.clone(); // Store the model's position
-                // model.position.set(0, 0, 0); // Move the model to the origin temporarily
 
-                // Copy contents to off-screen renderer
-                offScreenRenderer.setSize(window.innerWidth * 0.6, window.innerWidth * 0.4);
-                offScreenRenderer.setClearColor(0x000000, 1.0); // Set clear color to transparent
-                document.body.appendChild(offScreenRenderer.domElement);
-                offScreenRenderer.render(scene, camera);
+            const modelPosition = model.position.clone(); // Store the model's position
+            // model.position.set(0, 0, 0); // Move the model to the origin temporarily
 
-                // Capture off-screen renderer using html2canvas
-                html2canvas(offScreenRenderer.domElement).then(function (canvas) {
-                    const screenshotURL = canvas.toDataURL();
-                    openScreenshotWindow(screenshotURL);
-                    document.body.removeChild(offScreenRenderer.domElement); // Remove the off-screen renderer element
-                    //model.position.copy(modelPosition); // Restore the model's original position
-                });
+            // Copy contents to off-screen renderer
+            offScreenRenderer.setSize(window.innerWidth * 0.6, window.innerWidth * 0.4);
+            offScreenRenderer.setClearColor(0x000000, 1.0); // Set clear color to transparent
+            document.body.appendChild(offScreenRenderer.domElement);
+            offScreenRenderer.render(scene, camera);
+
+            // Capture off-screen renderer using html2canvas
+            html2canvas(offScreenRenderer.domElement).then(function (canvas) {
+                const screenshotURL = canvas.toDataURL();
+                openScreenshotWindow(screenshotURL);
+                document.body.removeChild(offScreenRenderer.domElement); // Remove the off-screen renderer element
+                //model.position.copy(modelPosition); // Restore the model's original position
+            });
 
 
         }
