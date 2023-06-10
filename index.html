@@ -142,7 +142,7 @@
                         model.visible = false;
                         imagePlane.visible = true;
                         controls.enableRotate = false;
-                        imagePlane.rotation.y = controls.getAzimuthalAngle();
+                    //imagePlane.rotation.y =controls.getAzimuthalAngle();
                     }
                     controls.update();
                     renderer.render(scene, camera);
@@ -176,9 +176,9 @@
         controls.minDistance = 1;
 
         // Image display
-        var imageTexture = new THREE.TextureLoader().load(getImage());
+        var imageTexture = new THREE.TextureLoader().load("0_0.jpg");
         var imageMaterial = new THREE.MeshBasicMaterial({ map: imageTexture });
-        var imageGeometry = new THREE.PlaneGeometry(1.5 * 3.5, 3.5);
+        var imageGeometry = new THREE.PlaneGeometry(1.5 * 4, 4);
         var imagePlane = new THREE.Mesh(imageGeometry, imageMaterial);
         // imagePlane.position.x = 0; // Position the image in front of the camera
         scene.add(imagePlane);
@@ -201,59 +201,73 @@
         var offScreenRenderer = new THREE.WebGLRenderer({ alpha: true });
         function getImage() {
             angle = controls.getAzimuthalAngle();
-            if (angle >= 0.0 && angle < 0.1) {
-                // console.log("0.0");
+            if (angle >= -0.02744 && angle < 0.0764) {
+                 console.log("0.0");
+                 imagePlane.rotation.y =0.0764;
                 return "outputs/0_0.jpg";
-            } else if (angle >= 0.1 && angle < 0.2) {
-                // console.log("0.1");
-                return "outputs/0_1.jpg";
+            } else if (angle >= 0.0764 && angle < 0.2135) {
+                 console.log("0.1");
+                 imagePlane.rotation.y =0.0764;
+                return "outputs/0_0.jpg";
             }
-            else if (angle >= 0.2 && angle < 0.3) {
-                // console.log("0.2");
+            else if (angle >= 0.2135 && angle < 0.3778) {
+                 console.log("0.2");
+                 imagePlane.rotation.y =0.2135;
                 return "outputs/0_2.jpg";
             }
-            else if (angle >= 0.3 && angle < 0.4) {
-                // console.log("0.3");
+            else if (angle >= 0.3778 && angle < 0.52306) {
+                 console.log("0.3");
+                 imagePlane.rotation.y =0.3778;
                 return "outputs/0_3.jpg";
             }
-            else if (angle >= 0.4 && angle < 0.5) {
-                // console.log("0.4");
-                return "outputs/0_4.jpg";
-            }
-            else if (angle >= 0.5 && angle < 0.6) {
+            // else if (angle >= 0.4 && angle < 0.5) {
+            //      console.log("0.4");
+            //      //imagePlane.rotation.y =;
+            //     return "outputs/0_4.jpg";
+            // }
+            else if (angle >= 0.52306 && angle < 0.649748) {
                 console.log("0.5");
+                imagePlane.rotation.y =0.52306;
                 return "outputs/0_5.jpg";
             }
-            else if (angle >= 0.6 && angle <= 0.7) {
+            else if (angle >= 0.649748 && angle <= 0.7) {
                 console.log("0.6");
+                imagePlane.rotation.y =0.649748;
                 return "outputs/0_6.jpg";
             }
-            else if (angle >= -0.1 && angle < 0.0) {
+            else if (angle >= -0.12476 && angle < -0.02744) {
                 console.log("-0.1");
+                imagePlane.rotation.y =-0.02744;
                 return "outputs/0_n1.jpg";
             }
-            else if (angle >= -0.2 && angle < -0.1) {
+            else if (angle >= -0.23646 && angle < -0.12476) {
                 console.log("-0.2");
+                imagePlane.rotation.y =-0.12476;
                 return "outputs/0_n2.jpg";
             }
-            else if (angle >= -0.3 && angle < -0.2) {
+            else if (angle >= -0.3 && angle < -0.23646) {
                 console.log("-0.3");
-                return "outputs/0_n3.jpg";
-            }
-            else if (angle >= -0.4 && angle < -0.3) {
-                console.log("-0.4");
+                imagePlane.rotation.y =-0.23646;
                 return "outputs/0_n4.jpg";
             }
-            else if (angle >= -0.5 && angle < -0.4) {
-                console.log("-0.5");
-                return "outputs/0_n5.jpg";
+            else if (angle >= -0.4069 && angle < -0.3) {
+                console.log("-0.4");
+                imagePlane.rotation.y =-0.23646;
+                return "outputs/0_n4.jpg";
             }
-            else if (angle >= -0.6 && angle < -0.5) {
-                console.log("-0.6");
+            else if (angle >= -0.5775 && angle < -0.4069) {
+                console.log("-0.5");
+                imagePlane.rotation.y =-0.4069;
                 return "outputs/0_n6.jpg";
+            }
+            else if (angle >= -0.6 && angle < -0.5775) {
+                console.log("-0.7");
+                imagePlane.rotation.y =-0.5775;
+                return "outputs/0_n7.jpg";
             }
             else {
                 console.log("-0.7");
+                imagePlane.rotation.y =-0.5775;
                 return "outputs/0_n7.jpg";
             }
         }
