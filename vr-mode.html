@@ -89,11 +89,18 @@
             }
 
             const loader = new GLTFLoader();
-            loader.load('model.gltf', function (gltf) {
+            loader.load('recentred_scene.glb', function (gltf) {
+                // Center the model
+                const bbox = new THREE.Box3().setFromObject(gltf.scene);
+                const center = bbox.getCenter(new THREE.Vector3());
+                console.log(center);
+                const offset = new THREE.Vector3(0, -2, 5);
+                center.add(offset);
+                gltf.scene.position.sub(center);
+                console.log(center);
                 const model = gltf.scene;
                 scene.add(model);
-                model.position.set(0, 0.8, -2.5);
-                model.rotation.set(0, 0, 0); // Set initial rotation
+                console.log(model.position);
 
                 // Variables for joystick rotation
                 let isDragging = false;
